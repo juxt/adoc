@@ -6,7 +6,7 @@ A Clojure wrapper for https://github.com/asciidoctor/asciidoctorj[Asciidoctorj].
 
 Add the following dependency to your +project.clj+ or +build.boot+ file
 
-image::http://clojars.org/juxt/adoc//latest-version.svg[]
+image::http://clojars.org/juxt/adoc/latest-version.svg[]
 
 == Copyright & License
 
