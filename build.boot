@@ -3,6 +3,10 @@
 (set-env!
  :source-paths #{"src"}
  :resource-paths #{"src"}
+ 
+ :repositories
+ #(conj % ["clojars" {:url "https://clojars.org/repo/"}])
+
  :dependencies
  '[[camel-snake-kebab "0.3.2"]
    [org.asciidoctor/asciidoctorj "1.5.4"]])
@@ -22,6 +26,8 @@
     (if (or dirty? (pos? (Long/parseLong commits)))
       (str (next-version version) "-SNAPSHOT")
       version)))
+
+(def +version+ (version))
 
 (task-options!
  pom {:project 'juxt/adoc
@@ -43,4 +49,7 @@
    (jar)
    (target)))
 
-
+(deftask deploy []
+  (comp
+   (push :repo "clojars"
+         :file (format "target/adoc-%s.jar" +version+))))
