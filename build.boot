@@ -4,9 +4,6 @@
  :source-paths #{"src"}
  :resource-paths #{"src"}
  
- :repositories
- #(conj % ["clojars" {:url "https://clojars.org/repo/"}])
-
  :dependencies
  '[[camel-snake-kebab "0.3.2"]
    [org.asciidoctor/asciidoctorj "1.5.4"]])
@@ -34,8 +31,8 @@
       :version (version)}
  jar {:main 'juxt.adoc.core})
 
-(deftask ver "Get version" []
-   (println (version)))
+(deftask show-version "Show version" []
+  (println (version)))
 
 (deftask dev []
   (comp
@@ -49,7 +46,15 @@
    (jar)
    (target)))
 
-(deftask deploy []
+(deftask deploy
+  "Deploy the library. You need to add a repo-map function in your profile.boot that returns the url and credentials as a map. 
+
+For example: 
+
+{:url \"https://clojars.org/repo/\" 
+ :username \"billy\" 
+ :password \"thefish\"}"
+  []
   (comp
-   (push :repo "clojars"
+   (push :repo-map (repo-map "clojars")
          :file (format "target/adoc-%s.jar" +version+))))
