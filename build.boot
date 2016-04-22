@@ -61,6 +61,7 @@ For example:
   (comp
    (pom)
    (jar)
+   (target)
    (push :repo-map (repo-map "clojars")
          :file (format "target/adoc-%s.jar" +version+)
          :gpg-sign (not (.endsWith +version+ "-SNAPSHOT")))))
