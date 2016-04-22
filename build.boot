@@ -59,6 +59,8 @@ For example:
  :password \"thefish\"}"
   []
   (comp
+   (pom)
+   (jar)
    (push :repo-map (repo-map "clojars")
          :file (format "target/adoc-%s.jar" +version+)
          :gpg-sign (not (.endsWith +version+ "-SNAPSHOT")))))
