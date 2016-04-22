@@ -3,7 +3,7 @@
 (set-env!
  :source-paths #{"src"}
  :resource-paths #{"src"}
- 
+
  :dependencies
  '[[camel-snake-kebab "0.3.2"]
    [org.asciidoctor/asciidoctorj "1.5.4"]])
@@ -28,8 +28,11 @@
 
 (task-options!
  pom {:project 'juxt/adoc
-      :version (version)}
- jar {:main 'juxt.adoc.core})
+      :version +version+}
+ jar {:main 'juxt.adoc.core
+      :file (str "adoc-" +version+ ".jar")}
+ install {:file (str "target/adoc-" +version+ ".jar")
+          :pom "juxt/adoc"})
 
 (deftask show-version "Show version" []
   (println (version)))
@@ -40,19 +43,19 @@
    (repl :server true :init-ns 'user)
    (target)))
 
-(deftask build []
+(deftask install-jar []
   (comp
    (pom)
    (jar)
-   (target)))
+   (install)))
 
 (deftask deploy
-  "Deploy the library. You need to add a repo-map function in your profile.boot that returns the url and credentials as a map. 
+  "Deploy the library. You need to add a repo-map function in your profile.boot that returns the url and credentials as a map.
 
-For example: 
+For example:
 
-{:url \"https://clojars.org/repo/\" 
- :username \"billy\" 
+{:url \"https://clojars.org/repo/\"
+ :username \"billy\"
  :password \"thefish\"}"
   []
   (comp
