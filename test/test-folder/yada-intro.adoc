@@ -1,0 +1,99 @@
+The yada user-manual
+====================
+:doctype: book
+:description: A user manual explaining yada, an HTTP library for Clojure from JUXT.
+:source-highlighter: coderay
+:coderay-css: class
+:icons: font
+
+[[introduction]]
+== Introduction
+
+[yada]#yada# is a web library written in Clojure that lets you create websites
+and web APIs.
+
+Design goals:
+
+- Be easy of use for intermediate Clojure developers
+- Comprehensive compliance with HTTP standards over pragmatism and performance
+- Increase productivity through re-use
+- Handle large workloads with reasonable performance
+- Support multiple architectural styles, including Hypermedia APIs (REST)
+
+[yada]#yada# is sufficiently quick-and-easy for quick prototype work but scales up
+when you need it to, to feature-rich secure services that can handle the
+most demanding workloads, while remaining faithful to the HTTP
+standards.
+
+=== Say 'Hello!' to [yada]#yada#!
+
+It's quick to get started with [yada]#yada# without knowing how it works - it's easy to get started even if you only have a basic knowledge of Clojure.
+
+Let's begin with a few examples. The obligatory *Hello World!* example is link:intro-examples/hello[`(yada/handler "Hello World!")`], which responds with a message.
+
+Perhaps you might want to serve a file? That's
+link:intro-examples/index.html[`(yada/handler (new java.io.File "index.html"))`].
+
+Now you know how to serve a file, you know how to link:intro-examples/dir/[serve a directory]. But perhaps you've got some resources on the classpath?
+`(yada/handler (clojure.java.io/resource
+"talks/"))`.
+
+What about link:intro-examples/nil[`(yada/handler nil)`]? Without knowing, can you guess what that might do? (That's right, it produces a `404 Not Found` response).
+
+What about a quick dice generator? link:intro-examples/dice[`(yada/handler #(inc (rand-int 6)))`].
+Notice we use a function here, rather than a constant value, to vary numbers between rolls.
+
+How about streaming those dice rolls as 'Server Sent Events'? Put those
+link:intro-examples/sse-dice[dice rolls on a core.async channel], and return it with [yada]#yada#.
+
+All these examples demonstrate the use of Clojure types that are
+converted on-the-fly into [yada]#yada# resources, and you can create your own
+types too.
+
+Let's delve a little deeper…
+
+=== Resources
+
+In [yada]#yada#, resources are defined by a plain-old Clojure map.
+
+This has many benefits. While functions are opaque, data is open to
+inspection. Data structures are easy to generate, transform and query -
+chores that Clojure makes light work of.
+
+Here's an example of a resource:
+
+[source,clojure]
+----
+(yada/resource
+  {:properties {…}
+   :methods {:get {:response (fn [ctx] "Hello World!")}
+             :put {…}
+             :brew {…}}
+ …
+})
+----
+
+There's a lot of things you can do with a resource data model but perhaps the most obvious is to create a request handler from it to create responses from HTTP requests. That's the role of a **handler**.
+
+With [yada]#yada#, we transform a resource into a handler using the `handler` function.
+
+[source,clojure]
+----
+(require '[yada.yada :as yada])
+
+(yada/handler (yada/resource {…}))
+----
+
+A handler can be called as a function, with a single argument representing an HTTP **request**. It returns a value representing the corresponding HTTP response. (If you are familiar with Ring, this is the Ring handler, but not one you have to write yourself!)
+
+=== Serving requests
+
+To use [yada]#yada# to create real responses to real HTTP requests, you need to add [yada]#yada# to a web-server, such as Aleph or Immutant. The web server takes care of the networking and messages of HTTP (RFC 7230), while [yada]#yada# focuses on the semantics and content (starting with RFC 7231).
+
+To write real applications, you also need a router that understands URIs, and [yada]#yada# has some features that are enabled when used with bidi, although there is nothing to stop you using [yada]#yada# with other routing libraries.
+
+=== Conclusion
+
+That's [yada]#yada# in a nutshell, but the quickest way to to learn it is to set up an environment and have a play.
+
+The link:{next}[next chapter] explains how to do that.
