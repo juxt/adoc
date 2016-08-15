@@ -1,0 +1,11 @@
+== Important Book Here
+
+:toc: left
+:doctype: book
+:toclevels: 3
+:numbered:
+:idprefix:
+:idseparator: -
+:source-highlighter: pygments
+:sectlink:
+:sectanchors:

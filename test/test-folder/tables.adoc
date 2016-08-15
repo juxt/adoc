@@ -1,0 +1,11 @@
+:numbered!:
+:toc!:
+
+[preface]
+== Tables generate error with asciidoctorJ
+
+[cols="a,a"]
+|==================================
+
+|==================================
+

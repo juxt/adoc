@@ -1,0 +1,19 @@
+:numbered!:
+:toc!:
+
+[preface]
+== Nice book
+
+== Foreword
+This is where the foreword goes.
+
+== Preface
+This is where the preface goes.
+
+== Acknowledgements
+This is where the acknowledgements go.
+
+[source]
+----
+source block
+----
